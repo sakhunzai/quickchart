@@ -1,4 +1,4 @@
-FROM node:18-alpine3.17
+FROM node:20.15.0-alpine3.19
 
 ENV NODE_ENV production
 
@@ -28,4 +28,4 @@ COPY LICENSE .
 
 EXPOSE 3400
 
-ENTRYPOINT ["node", "--max-http-header-size=65536", "index.js"]
+ENTRYPOINT ["node", "--max-http-header-size=65536", "lambda.js"]

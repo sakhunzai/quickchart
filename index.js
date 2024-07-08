@@ -35,7 +35,7 @@ app.use(
   }),
 );
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 if (process.env.RATE_LIMIT_PER_MIN) {
   const limitMax = parseInt(process.env.RATE_LIMIT_PER_MIN, 10);

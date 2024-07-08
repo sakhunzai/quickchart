@@ -24,6 +24,7 @@
     "chartjs-adapter-moment": "github:sakhunzai/chartjs-adapter-moment",
     "chartjs-chart-box-and-violin-plot": "^4.0.0",
     "chartjs-chart-radial-gauge": "^1.1.0",
+    "chartjs-chart-sankey": "^0.12.1",
     "chartjs-node-canvas": "^3.2.0",
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-colorschemes": "github:typpo/chartjs-plugin-colorschemes#979ef8e599265f65c85d5dae90b543d5589c734a",
@@ -40,6 +41,7 @@
     "pdfkit": "^0.15.0",
     "qrcode": "^1.5.3",
     "qs": "^6.12.2",
+    "serverless-http": "^3.2.0",
     "sharp": "^0.33.4",
     "text2png": "^2.3.0",
     "viz.js": "^2.1.2"
@@ -57,6 +59,7 @@
     "mocha": "^10.6.0",
     "pixelmatch": "^6.0.0",
     "prettier": "^3.3.2",
+    "qrcode-reader": "^1.0.4",
     "supertest": "^7.0.0"
   }
 }

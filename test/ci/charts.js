@@ -96,7 +96,7 @@ describe('charts.js', () => {
       300,
       200,
       'transparent',
-      2.0,
+      3.0,
       '2.9.4',
       'png',
       charts.CHART_GRADIENT_FILL,
@@ -163,8 +163,6 @@ describe('charts.js', () => {
       charts.BASIC_CHART,
     );
 
-    assert(
-      buf.toString().includes('<path style=" stroke:none;fill-rule:nonzero;fill:rgb(40%,40%,40%)'),
-    );
+    assert(buf.toString().includes('<path fill-rule="nonzero" fill="rgb(40%, 40%, 40%)"'));
   });
 });

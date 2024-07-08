@@ -1,7 +1,5 @@
 const fs = require('fs');
 
-const fetch = require('node-fetch');
-
 const { logger } = require('./logging');
 
 const TELEMETRY_PATH = 'telemetry.log';
@@ -69,15 +67,21 @@ function send() {
 
 if (process.env.ENABLE_TELEMETRY_WRITE) {
   logger.info('Telemetry writing is enabled');
-  setInterval(() => {
-    write();
-  }, 1000 * 60 * 60 * 1);
+  setInterval(
+    () => {
+      write();
+    },
+    1000 * 60 * 60 * 1,
+  );
 }
 if (!process.env.DISABLE_TELEMETRY) {
   logger.info('Telemetry is enabled');
-  setInterval(() => {
-    send();
-  }, 1000 * 60 * 60 * 12);
+  setInterval(
+    () => {
+      send();
+    },
+    1000 * 60 * 60 * 12,
+  );
 }
 
 module.exports = {
