@@ -454,39 +454,41 @@ app.get('/healthcheck/chart', (req, res) => {
   res.redirect(`/chart?c=${template}`);
 });
 
-const port = process.env.PORT || 3400;
-const server = app.listen(port);
+logger.info(`ENV: ${process.env.ENV}`);
+if (process.env.ENV === 'LOCAL') {
+  const port = process.env.PORT || 3400;
+  const server = app.listen(port);
+  const timeout = parseInt(process.env.REQUEST_TIMEOUT_MS, 10) || 5000;
+  server.setTimeout(timeout);
+  logger.info(`Setting request timeout: ${timeout} ms`);
 
-const timeout = parseInt(process.env.REQUEST_TIMEOUT_MS, 10) || 5000;
-server.setTimeout(timeout);
-logger.info(`Setting request timeout: ${timeout} ms`);
+  logger.info(`NODE_ENV: ${process.env.NODE_ENV}`);
+  logger.info(`Listening on port ${port}`);
 
-logger.info(`NODE_ENV: ${process.env.NODE_ENV}`);
-logger.info(`Listening on port ${port}`);
+  if (!isDev) {
+    const gracefulShutdown = function gracefulShutdown() {
+      logger.info('Received kill signal, shutting down gracefully.');
+      server.close(() => {
+        logger.info('Closed out remaining connections.');
+        process.exit();
+      });
 
-if (!isDev) {
-  const gracefulShutdown = function gracefulShutdown() {
-    logger.info('Received kill signal, shutting down gracefully.');
-    server.close(() => {
-      logger.info('Closed out remaining connections.');
-      process.exit();
+      setTimeout(() => {
+        logger.error('Could not close connections in time, forcefully shutting down');
+        process.exit();
+      }, 10 * 1000);
+    };
+
+    // listen for TERM signal .e.g. kill
+    process.on('SIGTERM', gracefulShutdown);
+
+    // listen for INT signal e.g. Ctrl-C
+    process.on('SIGINT', gracefulShutdown);
+
+    process.on('SIGABRT', () => {
+      logger.info('Caught SIGABRT');
     });
-
-    setTimeout(() => {
-      logger.error('Could not close connections in time, forcefully shutting down');
-      process.exit();
-    }, 10 * 1000);
-  };
-
-  // listen for TERM signal .e.g. kill
-  process.on('SIGTERM', gracefulShutdown);
-
-  // listen for INT signal e.g. Ctrl-C
-  process.on('SIGINT', gracefulShutdown);
-
-  process.on('SIGABRT', () => {
-    logger.info('Caught SIGABRT');
-  });
+  }
 }
-
+logger.info(`Quickchart ready to listen for requests!`);
 module.exports = app;

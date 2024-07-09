@@ -28,4 +28,4 @@ COPY LICENSE .
 
 EXPOSE 3400
 
-ENTRYPOINT ["node", "--max-http-header-size=65536", "lambda.js"]
+CMD ["node", "--max-http-header-size=65536", "lambda.js"]
