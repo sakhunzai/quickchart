@@ -489,6 +489,10 @@ if (process.env.ENV === 'LOCAL') {
       logger.info('Caught SIGABRT');
     });
   }
+} else {
+  logger.info(`Quickcharts running in ${process.env.ENV} mode`);
 }
+
 logger.info(`Quickchart ready to listen for requests!`);
+
 module.exports = app;
