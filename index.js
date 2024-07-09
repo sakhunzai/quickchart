@@ -454,8 +454,10 @@ app.get('/healthcheck/chart', (req, res) => {
   res.redirect(`/chart?c=${template}`);
 });
 
-logger.info(`ENV: ${process.env.ENV}`);
-if (process.env.ENV === 'LOCAL') {
+const mode = process.env.ENV || 'LOCAL';
+logger.info(`ENV: ${mode}`);
+
+if (mode === 'LOCAL') {
   const port = process.env.PORT || 3400;
   const server = app.listen(port);
   const timeout = parseInt(process.env.REQUEST_TIMEOUT_MS, 10) || 5000;
@@ -490,7 +492,7 @@ if (process.env.ENV === 'LOCAL') {
     });
   }
 } else {
-  logger.info(`Quickcharts running in ${process.env.ENV} mode`);
+  logger.info(`Quickcharts running in ${mode} mode`);
 }
 
 logger.info(`Quickchart ready to listen for requests!`);

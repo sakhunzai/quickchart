@@ -1,4 +1,15 @@
 const serverless = require('serverless-http');
 const app = require('./index');
 
-module.exports.handler = serverless(app);
+const handler = serverless(app);
+
+module.exports.handler = async (event, context) => {
+  console.log('Event:', event);
+  console.log('Context:', context);
+
+  const response = await handler(event, context);
+
+  console.log('Response:', response);
+
+  return response;
+};
