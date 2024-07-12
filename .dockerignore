@@ -1,1 +1,13 @@
+.git
+.github
+dist/**
 node_modules
+scripts
+test
+.gitignore
+.nvmrc
+.prettierrc.yaml
+.travis.yml
+aws.lambda.Dockerfile
+Dockerfile*
+README.md

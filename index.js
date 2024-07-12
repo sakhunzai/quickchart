@@ -97,6 +97,7 @@ function failPng(res, msg, statusCode = 500) {
   res.writeHead(statusCode, {
     'Content-Type': 'image/png',
     'X-quickchart-error': sanitizeErrorHeader(msg),
+    isBase64Encoded: true,
   });
   res.end(
     text2png(`Chart Error: ${msg}`, {
@@ -224,6 +225,7 @@ async function handleGraphviz(req, res, graphVizDef, opts) {
     res
       .status(200)
       .type(opts.format === 'png' ? 'image/png' : 'image/svg+xml')
+      .setHeader('isBase64Encoded', opts.format === 'png')
       .end(buf);
   } catch (err) {
     if (opts.format === 'png') {
@@ -274,6 +276,7 @@ function handleGChart(req, res) {
 
           // 1 week cache
           'Cache-Control': isDev ? 'no-cache' : 'public, max-age=604800',
+          isBase64Encoded: format === 'png',
         });
         res.end(buf);
       })
@@ -318,6 +321,7 @@ function handleGChart(req, res) {
 
       // 1 week cache
       'Cache-Control': isDev ? 'no-cache' : 'public, max-age=604800',
+      isBase64Encoded: true,
     });
     res.end(buf);
   });
@@ -419,6 +423,7 @@ app.get('/qr', (req, res) => {
 
         // 1 week cache
         'Cache-Control': isDev ? 'no-cache' : 'public, max-age=604800',
+        isBase64Encoded: format === 'png',
       });
       res.end(buf);
     })
