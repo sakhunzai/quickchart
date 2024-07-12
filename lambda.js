@@ -1,15 +1,13 @@
 const serverless = require('serverless-http');
 const app = require('./index');
+const { logger } = require('./logging');
 
-const handler = serverless(app);
-
-module.exports.handler = async (event, context) => {
-  console.log('Event:', event);
-  console.log('Context:', context);
-
-  const response = await handler(event, context);
-
-  console.log('Response:', response);
-
-  return response;
-};
+module.exports.handler = serverless(app, {
+  request: function (request, event, context) {
+    process.env.DEBUG && logger.info('Request:', request);
+  },
+  response: function (response, event, context) {
+    process.env.DEBUG && logger.info('Response:', response);
+  },
+  binary: ['image/*'],
+});
